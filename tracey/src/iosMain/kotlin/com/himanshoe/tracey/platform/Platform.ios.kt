@@ -7,16 +7,16 @@ import androidx.compose.ui.graphics.toPixelMap
 import com.himanshoe.tracey.model.DeviceInfo
 import com.himanshoe.tracey.model.InteractionEvent
 import com.himanshoe.tracey.recording.SemanticPathResolver
-import kotlinx.cinterop.ByteVar
-import kotlinx.cinterop.CPointer
 import kotlinx.cinterop.ExperimentalForeignApi
+import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.memScoped
-import kotlinx.cinterop.toCValues
+import kotlinx.cinterop.refTo
 import kotlinx.cinterop.useContents
+import kotlinx.cinterop.usePinned
+import platform.posix.memcpy
 import platform.CoreGraphics.CGBitmapContextCreate
 import platform.CoreGraphics.CGBitmapContextCreateImage
 import platform.CoreGraphics.CGColorSpaceCreateDeviceRGB
-import platform.CoreGraphics.kCGImageAlphaPremultipliedLast
 import platform.Foundation.NSBundle
 import platform.Foundation.NSData
 import platform.Foundation.NSDate
@@ -24,7 +24,6 @@ import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSLocale
 import platform.Foundation.NSNotificationCenter
-import platform.Foundation.NSObject
 import platform.Foundation.NSOperationQueue
 import platform.Foundation.NSSearchPathForDirectoriesInDomains
 import platform.Foundation.NSUUID
@@ -158,13 +157,13 @@ internal actual fun encodePng(imageBitmap: ImageBitmap): ByteArray? = runCatchin
     memScoped {
         val colorSpace = CGColorSpaceCreateDeviceRGB()
         val context = if (colorSpace != null) CGBitmapContextCreate(
-            data = rawBytes.toCValues().ptr,
+            data = rawBytes.refTo(0),
             width = width.toULong(),
             height = height.toULong(),
             bitsPerComponent = 8u,
             bytesPerRow = bytesPerRow.toULong(),
             space = colorSpace,
-            bitmapInfo = kCGImageAlphaPremultipliedLast,
+            bitmapInfo = 1u, // kCGImageAlphaPremultipliedLast
         ) else null
         val cgImage = context?.let { CGBitmapContextCreateImage(it) }
         val uiImage = cgImage?.let { UIImage.imageWithCGImage(it) }
@@ -197,13 +196,14 @@ internal actual fun AttachSemanticsOwner(resolver: SemanticPathResolver) = Unit
 
 @OptIn(ExperimentalForeignApi::class)
 private fun ByteArray.toNSData(): NSData =
-    NSData.dataWithBytes(this.toCValues(), length = this.size.toULong())
+    usePinned { NSData.dataWithBytes(it.addressOf(0), length = this.size.toULong()) }
 
 @OptIn(ExperimentalForeignApi::class)
-private fun NSData.toByteArray(): ByteArray =
-    ByteArray(this.length.toInt()).also { bytes ->
-        this.bytes?.let { ptr ->
-            val bytePtr = ptr as CPointer<ByteVar>
-            for (i in bytes.indices) bytes[i] = bytePtr[i]
-        }
-    }
+private fun NSData.toByteArray(): ByteArray {
+    val size = this.length.toInt()
+    if (size == 0) return ByteArray(0)
+    val result = ByteArray(size)
+    val src = this.bytes ?: return result
+    result.usePinned { memcpy(it.addressOf(0), src, this.length) }
+    return result
+}
