@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="46%" r="42%">
+      <stop offset="0%" stop-color="#EF9F27" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#EF9F27" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="play" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FAC775"/>
+      <stop offset="100%" stop-color="#BA7517"/>
+    </linearGradient>
+    <linearGradient id="prog" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#EF9F27"/>
+      <stop offset="100%" stop-color="#FAC775"/>
+    </linearGradient>
+    <linearGradient id="swipe" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#FAC775" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#FAC775"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Ambient glow -->
+  <ellipse cx="256" cy="230" rx="200" ry="180" fill="url(#glow)"/>
+
+  <!-- Concentric ripple rings — amber palette -->
+  <circle cx="256" cy="230" r="24"  fill="none" stroke="#EF9F27" stroke-width="2.5"/>
+  <circle cx="256" cy="230" r="44"  fill="none" stroke="#EF9F27" stroke-width="2"    opacity="0.85"/>
+  <circle cx="256" cy="230" r="64"  fill="none" stroke="#EF9F27" stroke-width="1.75" opacity="0.68"
+    stroke-dasharray="370 32" stroke-dashoffset="-8"/>
+  <circle cx="256" cy="230" r="84"  fill="none" stroke="#EF9F27" stroke-width="1.5"  opacity="0.52"
+    stroke-dasharray="480 48" stroke-dashoffset="-18"/>
+  <circle cx="256" cy="230" r="104" fill="none" stroke="#EF9F27" stroke-width="1.25" opacity="0.36"
+    stroke-dasharray="600 54" stroke-dashoffset="-28"/>
+  <circle cx="256" cy="230" r="124" fill="none" stroke="#EF9F27" stroke-width="1"    opacity="0.22"
+    stroke-dasharray="720 60" stroke-dashoffset="-38"/>
+  <circle cx="256" cy="230" r="144" fill="none" stroke="#EF9F27" stroke-width="0.75" opacity="0.12"
+    stroke-dasharray="840 68" stroke-dashoffset="-48"/>
+  <circle cx="256" cy="230" r="164" fill="none" stroke="#EF9F27" stroke-width="0.5"  opacity="0.06"
+    stroke-dasharray="960 76" stroke-dashoffset="-58"/>
+
+  <!-- Touch origin dot -->
+  <circle cx="256" cy="230" r="13"  fill="#EF9F27" opacity="0.25"/>
+  <circle cx="256" cy="230" r="8"   fill="#EF9F27"/>
+  <circle cx="256" cy="230" r="4"   fill="#FAC775"/>
+  <circle cx="256" cy="230" r="1.8" fill="#ffffff" opacity="0.9"/>
+
+  <!-- Primary swipe — solid, curves up-right -->
+  <path d="M256 230 Q300 210 334 178 Q358 154 350 122"
+    fill="none" stroke="#FAC775" stroke-width="3" stroke-linecap="round"/>
+  <!-- Arrowhead -->
+  <polygon points="350,112 338,126 362,128" fill="#FAC775"/>
+
+  <!-- Breadcrumb dots along primary trail -->
+  <circle cx="277" cy="221" r="3" fill="#FAC775" opacity="0.5"/>
+  <circle cx="300" cy="208" r="3" fill="#FAC775" opacity="0.58"/>
+  <circle cx="322" cy="194" r="3" fill="#FAC775" opacity="0.66"/>
+  <circle cx="340" cy="178" r="3" fill="#FAC775" opacity="0.74"/>
+
+  <!-- Secondary swipe — dashed, curves down-left -->
+  <path d="M256 230 Q214 252 188 280 Q168 304 178 334"
+    fill="none" stroke="#EF9F27" stroke-width="2" stroke-linecap="round"
+    stroke-dasharray="6 5" opacity="0.5"/>
+  <polygon points="178,344 167,330 190,332" fill="#EF9F27" opacity="0.5"/>
+
+  <!-- Timeline track -->
+  <rect x="68" y="416" width="376" height="4" rx="2" fill="#EF9F27" opacity="0.12"/>
+  <!-- Progress fill -->
+  <rect x="68" y="416" width="202" height="4" rx="2" fill="url(#prog)"/>
+
+  <!-- Past event dots -->
+  <circle cx="110" cy="418" r="7"   fill="none" stroke="#EF9F27" stroke-width="2.5"/>
+  <circle cx="110" cy="418" r="2.5" fill="#EF9F27"/>
+
+  <circle cx="168" cy="418" r="7"   fill="none" stroke="#EF9F27" stroke-width="2.5"/>
+  <circle cx="168" cy="418" r="2.5" fill="#EF9F27"/>
+
+  <!-- Screen view event (square) -->
+  <rect x="222" y="411" width="14" height="14" rx="3"  fill="none" stroke="#FAC775" stroke-width="2"/>
+  <rect x="226" y="415" width="6"  height="6"  rx="1.5" fill="#FAC775"/>
+
+  <!-- Playhead -->
+  <line x1="270" y1="398" x2="270" y2="434" stroke="#FAC775" stroke-width="2.5" stroke-linecap="round"/>
+  <polygon points="270,388 259,401 281,401" fill="url(#play)"/>
+
+  <!-- Future dots (dim) -->
+  <circle cx="328" cy="418" r="5.5" fill="none" stroke="#EF9F27" stroke-width="1.5" opacity="0.2"/>
+  <circle cx="386" cy="418" r="5.5" fill="none" stroke="#EF9F27" stroke-width="1.5" opacity="0.2"/>
+
+  <!-- Crash marker -->
+  <circle cx="438" cy="418" r="7.5" fill="none" stroke="#E24B4A" stroke-width="2"/>
+  <line x1="435" y1="415" x2="441" y2="421" stroke="#E24B4A" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="441" y1="415" x2="435" y2="421" stroke="#E24B4A" stroke-width="2.5" stroke-linecap="round"/>
+</svg>

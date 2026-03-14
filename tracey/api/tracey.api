@@ -1,0 +1,515 @@
+public final class com/himanshoe/tracey/Tracey {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/himanshoe/tracey/Tracey;
+	public final fun capture (Lkotlinx/coroutines/CoroutineDispatcher;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun capture$default (Lcom/himanshoe/tracey/Tracey;Lkotlinx/coroutines/CoroutineDispatcher;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+	public final fun captureAndExportFile-IoAF18A (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun captureAndExportHtml (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun captureAndExportTest (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun install (Lcom/himanshoe/tracey/TraceyConfig;)V
+	public static synthetic fun install$default (Lcom/himanshoe/tracey/Tracey;Lcom/himanshoe/tracey/TraceyConfig;ILjava/lang/Object;)V
+	public final fun log (Ljava/lang/String;)V
+	public final fun route (Ljava/lang/String;)V
+	public final fun screen (Ljava/lang/String;)V
+}
+
+public final class com/himanshoe/tracey/TraceyConfig {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun <init> (ZZIILjava/util/List;Ljava/util/List;ZZLkotlin/jvm/functions/Function0;)V
+	public synthetic fun <init> (ZZIILjava/util/List;Ljava/util/List;ZZLkotlin/jvm/functions/Function0;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Z
+	public final fun component2 ()Z
+	public final fun component3 ()I
+	public final fun component4 ()I
+	public final fun component5 ()Ljava/util/List;
+	public final fun component6 ()Ljava/util/List;
+	public final fun component7 ()Z
+	public final fun component8 ()Z
+	public final fun component9 ()Lkotlin/jvm/functions/Function0;
+	public final fun copy (ZZIILjava/util/List;Ljava/util/List;ZZLkotlin/jvm/functions/Function0;)Lcom/himanshoe/tracey/TraceyConfig;
+	public static synthetic fun copy$default (Lcom/himanshoe/tracey/TraceyConfig;ZZIILjava/util/List;Ljava/util/List;ZZLkotlin/jvm/functions/Function0;ILjava/lang/Object;)Lcom/himanshoe/tracey/TraceyConfig;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBufferDurationSeconds ()I
+	public final fun getEnabled ()Z
+	public final fun getGenerateHtmlReport ()Z
+	public final fun getMaxEvents ()I
+	public final fun getRedactedTags ()Ljava/util/List;
+	public final fun getReporters ()Ljava/util/List;
+	public final fun getSessionIdProvider ()Lkotlin/jvm/functions/Function0;
+	public final fun getShowOverlay ()Z
+	public final fun getTrackLifecycle ()Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/himanshoe/tracey/TraceyConfigKt {
+	public static final fun rememberTraceyConfig (ZZIILjava/util/List;Ljava/util/List;ZZLkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)Lcom/himanshoe/tracey/TraceyConfig;
+}
+
+public final class com/himanshoe/tracey/TraceyHostKt {
+	public static final fun TraceyHost (Lcom/himanshoe/tracey/TraceyConfig;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class com/himanshoe/tracey/TraceyScreenKt {
+	public static final fun TraceyScreen (Ljava/lang/String;Landroidx/compose/runtime/Composer;I)V
+}
+
+public final class com/himanshoe/tracey/export/TestCaseExporter {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/himanshoe/tracey/export/TestCaseExporter;
+	public final fun export (Lcom/himanshoe/tracey/model/ReplayPayload;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public static synthetic fun export$default (Lcom/himanshoe/tracey/export/TestCaseExporter;Lcom/himanshoe/tracey/model/ReplayPayload;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ljava/lang/String;
+}
+
+public final class com/himanshoe/tracey/model/DeviceInfo {
+	public static final field $stable I
+	public static final field Companion Lcom/himanshoe/tracey/model/DeviceInfo$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()I
+	public final fun component5 ()I
+	public final fun component6 ()F
+	public final fun component7 ()Ljava/lang/String;
+	public final fun component8 ()Ljava/lang/String;
+	public final fun component9 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lcom/himanshoe/tracey/model/DeviceInfo;
+	public static synthetic fun copy$default (Lcom/himanshoe/tracey/model/DeviceInfo;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IIFLjava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/himanshoe/tracey/model/DeviceInfo;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAppPackage ()Ljava/lang/String;
+	public final fun getAppVersion ()Ljava/lang/String;
+	public final fun getDensity ()F
+	public final fun getLocale ()Ljava/lang/String;
+	public final fun getModel ()Ljava/lang/String;
+	public final fun getOsVersion ()Ljava/lang/String;
+	public final fun getPlatform ()Ljava/lang/String;
+	public final fun getScreenHeightPx ()I
+	public final fun getScreenWidthPx ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/himanshoe/tracey/model/DeviceInfo$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/himanshoe/tracey/model/DeviceInfo$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/himanshoe/tracey/model/DeviceInfo;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/himanshoe/tracey/model/DeviceInfo;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/himanshoe/tracey/model/DeviceInfo$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public abstract interface class com/himanshoe/tracey/model/InteractionEvent {
+	public static final field Companion Lcom/himanshoe/tracey/model/InteractionEvent$Companion;
+	public abstract fun getPath ()Ljava/lang/String;
+	public abstract fun getTimestampMs ()J
+}
+
+public final class com/himanshoe/tracey/model/InteractionEvent$AppBackground : com/himanshoe/tracey/model/InteractionEvent {
+	public static final field $stable I
+	public static final field Companion Lcom/himanshoe/tracey/model/InteractionEvent$AppBackground$Companion;
+	public fun <init> (JLjava/lang/String;)V
+	public synthetic fun <init> (JLjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()J
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (JLjava/lang/String;)Lcom/himanshoe/tracey/model/InteractionEvent$AppBackground;
+	public static synthetic fun copy$default (Lcom/himanshoe/tracey/model/InteractionEvent$AppBackground;JLjava/lang/String;ILjava/lang/Object;)Lcom/himanshoe/tracey/model/InteractionEvent$AppBackground;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getPath ()Ljava/lang/String;
+	public fun getTimestampMs ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/himanshoe/tracey/model/InteractionEvent$AppBackground$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/himanshoe/tracey/model/InteractionEvent$AppBackground$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/himanshoe/tracey/model/InteractionEvent$AppBackground;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/himanshoe/tracey/model/InteractionEvent$AppBackground;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/himanshoe/tracey/model/InteractionEvent$AppBackground$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/himanshoe/tracey/model/InteractionEvent$AppForeground : com/himanshoe/tracey/model/InteractionEvent {
+	public static final field $stable I
+	public static final field Companion Lcom/himanshoe/tracey/model/InteractionEvent$AppForeground$Companion;
+	public fun <init> (JLjava/lang/String;)V
+	public synthetic fun <init> (JLjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()J
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (JLjava/lang/String;)Lcom/himanshoe/tracey/model/InteractionEvent$AppForeground;
+	public static synthetic fun copy$default (Lcom/himanshoe/tracey/model/InteractionEvent$AppForeground;JLjava/lang/String;ILjava/lang/Object;)Lcom/himanshoe/tracey/model/InteractionEvent$AppForeground;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getPath ()Ljava/lang/String;
+	public fun getTimestampMs ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/himanshoe/tracey/model/InteractionEvent$AppForeground$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/himanshoe/tracey/model/InteractionEvent$AppForeground$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/himanshoe/tracey/model/InteractionEvent$AppForeground;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/himanshoe/tracey/model/InteractionEvent$AppForeground;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/himanshoe/tracey/model/InteractionEvent$AppForeground$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/himanshoe/tracey/model/InteractionEvent$Breadcrumb : com/himanshoe/tracey/model/InteractionEvent {
+	public static final field $stable I
+	public static final field Companion Lcom/himanshoe/tracey/model/InteractionEvent$Breadcrumb$Companion;
+	public fun <init> (JLjava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (JLjava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()J
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (JLjava/lang/String;Ljava/lang/String;)Lcom/himanshoe/tracey/model/InteractionEvent$Breadcrumb;
+	public static synthetic fun copy$default (Lcom/himanshoe/tracey/model/InteractionEvent$Breadcrumb;JLjava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/himanshoe/tracey/model/InteractionEvent$Breadcrumb;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getMessage ()Ljava/lang/String;
+	public fun getPath ()Ljava/lang/String;
+	public fun getTimestampMs ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/himanshoe/tracey/model/InteractionEvent$Breadcrumb$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/himanshoe/tracey/model/InteractionEvent$Breadcrumb$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/himanshoe/tracey/model/InteractionEvent$Breadcrumb;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/himanshoe/tracey/model/InteractionEvent$Breadcrumb;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/himanshoe/tracey/model/InteractionEvent$Breadcrumb$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/himanshoe/tracey/model/InteractionEvent$Click : com/himanshoe/tracey/model/InteractionEvent {
+	public static final field $stable I
+	public static final field Companion Lcom/himanshoe/tracey/model/InteractionEvent$Click$Companion;
+	public fun <init> (JLjava/lang/String;FF)V
+	public final fun component1 ()J
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()F
+	public final fun component4 ()F
+	public final fun copy (JLjava/lang/String;FF)Lcom/himanshoe/tracey/model/InteractionEvent$Click;
+	public static synthetic fun copy$default (Lcom/himanshoe/tracey/model/InteractionEvent$Click;JLjava/lang/String;FFILjava/lang/Object;)Lcom/himanshoe/tracey/model/InteractionEvent$Click;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getPath ()Ljava/lang/String;
+	public fun getTimestampMs ()J
+	public final fun getX ()F
+	public final fun getY ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/himanshoe/tracey/model/InteractionEvent$Click$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/himanshoe/tracey/model/InteractionEvent$Click$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/himanshoe/tracey/model/InteractionEvent$Click;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/himanshoe/tracey/model/InteractionEvent$Click;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/himanshoe/tracey/model/InteractionEvent$Click$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/himanshoe/tracey/model/InteractionEvent$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/himanshoe/tracey/model/InteractionEvent$LongPress : com/himanshoe/tracey/model/InteractionEvent {
+	public static final field $stable I
+	public static final field Companion Lcom/himanshoe/tracey/model/InteractionEvent$LongPress$Companion;
+	public fun <init> (JLjava/lang/String;FFJ)V
+	public final fun component1 ()J
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()F
+	public final fun component4 ()F
+	public final fun component5 ()J
+	public final fun copy (JLjava/lang/String;FFJ)Lcom/himanshoe/tracey/model/InteractionEvent$LongPress;
+	public static synthetic fun copy$default (Lcom/himanshoe/tracey/model/InteractionEvent$LongPress;JLjava/lang/String;FFJILjava/lang/Object;)Lcom/himanshoe/tracey/model/InteractionEvent$LongPress;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getHoldDurationMs ()J
+	public fun getPath ()Ljava/lang/String;
+	public fun getTimestampMs ()J
+	public final fun getX ()F
+	public final fun getY ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/himanshoe/tracey/model/InteractionEvent$LongPress$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/himanshoe/tracey/model/InteractionEvent$LongPress$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/himanshoe/tracey/model/InteractionEvent$LongPress;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/himanshoe/tracey/model/InteractionEvent$LongPress;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/himanshoe/tracey/model/InteractionEvent$LongPress$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/himanshoe/tracey/model/InteractionEvent$Pinch : com/himanshoe/tracey/model/InteractionEvent {
+	public static final field $stable I
+	public static final field Companion Lcom/himanshoe/tracey/model/InteractionEvent$Pinch$Companion;
+	public fun <init> (JLjava/lang/String;FFFF)V
+	public final fun component1 ()J
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()F
+	public final fun component4 ()F
+	public final fun component5 ()F
+	public final fun component6 ()F
+	public final fun copy (JLjava/lang/String;FFFF)Lcom/himanshoe/tracey/model/InteractionEvent$Pinch;
+	public static synthetic fun copy$default (Lcom/himanshoe/tracey/model/InteractionEvent$Pinch;JLjava/lang/String;FFFFILjava/lang/Object;)Lcom/himanshoe/tracey/model/InteractionEvent$Pinch;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCentroidX ()F
+	public final fun getCentroidY ()F
+	public fun getPath ()Ljava/lang/String;
+	public final fun getRotationDelta ()F
+	public fun getTimestampMs ()J
+	public final fun getZoomDelta ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/himanshoe/tracey/model/InteractionEvent$Pinch$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/himanshoe/tracey/model/InteractionEvent$Pinch$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/himanshoe/tracey/model/InteractionEvent$Pinch;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/himanshoe/tracey/model/InteractionEvent$Pinch;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/himanshoe/tracey/model/InteractionEvent$Pinch$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/himanshoe/tracey/model/InteractionEvent$ScreenView : com/himanshoe/tracey/model/InteractionEvent {
+	public static final field $stable I
+	public static final field Companion Lcom/himanshoe/tracey/model/InteractionEvent$ScreenView$Companion;
+	public fun <init> (JLjava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (JLjava/lang/String;Ljava/lang/String;)Lcom/himanshoe/tracey/model/InteractionEvent$ScreenView;
+	public static synthetic fun copy$default (Lcom/himanshoe/tracey/model/InteractionEvent$ScreenView;JLjava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/himanshoe/tracey/model/InteractionEvent$ScreenView;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getPath ()Ljava/lang/String;
+	public final fun getScreenName ()Ljava/lang/String;
+	public fun getTimestampMs ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/himanshoe/tracey/model/InteractionEvent$ScreenView$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/himanshoe/tracey/model/InteractionEvent$ScreenView$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/himanshoe/tracey/model/InteractionEvent$ScreenView;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/himanshoe/tracey/model/InteractionEvent$ScreenView;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/himanshoe/tracey/model/InteractionEvent$ScreenView$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/himanshoe/tracey/model/InteractionEvent$Scroll : com/himanshoe/tracey/model/InteractionEvent {
+	public static final field $stable I
+	public static final field Companion Lcom/himanshoe/tracey/model/InteractionEvent$Scroll$Companion;
+	public fun <init> (JLjava/lang/String;FFFFFF)V
+	public final fun component1 ()J
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()F
+	public final fun component4 ()F
+	public final fun component5 ()F
+	public final fun component6 ()F
+	public final fun component7 ()F
+	public final fun component8 ()F
+	public final fun copy (JLjava/lang/String;FFFFFF)Lcom/himanshoe/tracey/model/InteractionEvent$Scroll;
+	public static synthetic fun copy$default (Lcom/himanshoe/tracey/model/InteractionEvent$Scroll;JLjava/lang/String;FFFFFFILjava/lang/Object;)Lcom/himanshoe/tracey/model/InteractionEvent$Scroll;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDeltaX ()F
+	public final fun getDeltaY ()F
+	public fun getPath ()Ljava/lang/String;
+	public fun getTimestampMs ()J
+	public final fun getVelocityX ()F
+	public final fun getVelocityY ()F
+	public final fun getX ()F
+	public final fun getY ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/himanshoe/tracey/model/InteractionEvent$Scroll$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/himanshoe/tracey/model/InteractionEvent$Scroll$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/himanshoe/tracey/model/InteractionEvent$Scroll;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/himanshoe/tracey/model/InteractionEvent$Scroll;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/himanshoe/tracey/model/InteractionEvent$Scroll$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/himanshoe/tracey/model/InteractionEvent$Swipe : com/himanshoe/tracey/model/InteractionEvent {
+	public static final field $stable I
+	public static final field Companion Lcom/himanshoe/tracey/model/InteractionEvent$Swipe$Companion;
+	public fun <init> (JLjava/lang/String;FFFFFF)V
+	public final fun component1 ()J
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()F
+	public final fun component4 ()F
+	public final fun component5 ()F
+	public final fun component6 ()F
+	public final fun component7 ()F
+	public final fun component8 ()F
+	public final fun copy (JLjava/lang/String;FFFFFF)Lcom/himanshoe/tracey/model/InteractionEvent$Swipe;
+	public static synthetic fun copy$default (Lcom/himanshoe/tracey/model/InteractionEvent$Swipe;JLjava/lang/String;FFFFFFILjava/lang/Object;)Lcom/himanshoe/tracey/model/InteractionEvent$Swipe;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getEndX ()F
+	public final fun getEndY ()F
+	public fun getPath ()Ljava/lang/String;
+	public final fun getStartX ()F
+	public final fun getStartY ()F
+	public fun getTimestampMs ()J
+	public final fun getVelocityX ()F
+	public final fun getVelocityY ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/himanshoe/tracey/model/InteractionEvent$Swipe$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/himanshoe/tracey/model/InteractionEvent$Swipe$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/himanshoe/tracey/model/InteractionEvent$Swipe;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/himanshoe/tracey/model/InteractionEvent$Swipe;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/himanshoe/tracey/model/InteractionEvent$Swipe$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/himanshoe/tracey/model/ReplayPayload {
+	public static final field $stable I
+	public static final field Companion Lcom/himanshoe/tracey/model/ReplayPayload$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;JJLjava/lang/String;Lcom/himanshoe/tracey/model/DeviceInfo;Ljava/util/List;Ljava/lang/String;[B)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;JJLjava/lang/String;Lcom/himanshoe/tracey/model/DeviceInfo;Ljava/util/List;Ljava/lang/String;[BILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()J
+	public final fun component4 ()J
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Lcom/himanshoe/tracey/model/DeviceInfo;
+	public final fun component7 ()Ljava/util/List;
+	public final fun component8 ()Ljava/lang/String;
+	public final fun component9 ()[B
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;JJLjava/lang/String;Lcom/himanshoe/tracey/model/DeviceInfo;Ljava/util/List;Ljava/lang/String;[B)Lcom/himanshoe/tracey/model/ReplayPayload;
+	public static synthetic fun copy$default (Lcom/himanshoe/tracey/model/ReplayPayload;Ljava/lang/String;Ljava/lang/String;JJLjava/lang/String;Lcom/himanshoe/tracey/model/DeviceInfo;Ljava/util/List;Ljava/lang/String;[BILjava/lang/Object;)Lcom/himanshoe/tracey/model/ReplayPayload;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAppVersion ()Ljava/lang/String;
+	public final fun getCapturedAtMs ()J
+	public final fun getCrashReason ()Ljava/lang/String;
+	public final fun getDeviceInfo ()Lcom/himanshoe/tracey/model/DeviceInfo;
+	public final fun getDurationMs ()J
+	public final fun getEvents ()Ljava/util/List;
+	public final fun getScreenshotPng ()[B
+	public final fun getSessionId ()Ljava/lang/String;
+	public final fun getTimeline ()Ljava/lang/String;
+	public fun hashCode ()I
+	public final fun isCrashPayload ()Z
+	public final fun toJson ()Ljava/lang/String;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/himanshoe/tracey/model/ReplayPayload$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/himanshoe/tracey/model/ReplayPayload$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/himanshoe/tracey/model/ReplayPayload;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/himanshoe/tracey/model/ReplayPayload;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/himanshoe/tracey/model/ReplayPayload$Companion {
+	public final fun fromJson (Ljava/lang/String;)Lcom/himanshoe/tracey/model/ReplayPayload;
+	public final fun getTraceyJson ()Lkotlinx/serialization/json/Json;
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public abstract interface class com/himanshoe/tracey/reporter/TraceyReporter {
+	public abstract fun onReplayReady (Lcom/himanshoe/tracey/model/ReplayPayload;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/himanshoe/tracey/reporter/builtin/FileReporter : com/himanshoe/tracey/reporter/TraceyReporter {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun onReplayReady (Lcom/himanshoe/tracey/model/ReplayPayload;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/himanshoe/tracey/reporter/builtin/LogcatReporter : com/himanshoe/tracey/reporter/TraceyReporter {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun onReplayReady (Lcom/himanshoe/tracey/model/ReplayPayload;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+

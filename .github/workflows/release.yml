@@ -1,0 +1,155 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tracey_version:
+        description: "tracey version (leave empty to skip)"
+        required: false
+        type: string
+        default: ""
+      tracey_navigation_version:
+        description: "tracey-navigation version (leave empty to skip)"
+        required: false
+        type: string
+        default: ""
+      tracey_navigation3_version:
+        description: "tracey-navigation3 version (leave empty to skip)"
+        required: false
+        type: string
+        default: ""
+      release_tag:
+        description: "Git tag for this release (e.g. v0.0.2)"
+        required: true
+        type: string
+
+jobs:
+  release:
+    name: Publish to Maven Central
+    runs-on: macos-latest
+    if: github.actor == github.repository_owner
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: "zulu"
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Validate inputs
+        run: |
+          TRACEY="${{ github.event.inputs.tracey_version }}"
+          NAV="${{ github.event.inputs.tracey_navigation_version }}"
+          NAV3="${{ github.event.inputs.tracey_navigation3_version }}"
+
+          if [ -z "$TRACEY" ] && [ -z "$NAV" ] && [ -z "$NAV3" ]; then
+            echo "Error: at least one module version must be provided"
+            exit 1
+          fi
+
+          SEMVER_PATTERN='^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9.]+)?$'
+          for VERSION in "$TRACEY" "$NAV" "$NAV3"; do
+            if [ -n "$VERSION" ] && ! echo "$VERSION" | grep -qE "$SEMVER_PATTERN"; then
+              echo "Invalid version format: $VERSION"
+              exit 1
+            fi
+          done
+
+          echo "Release tag : $TAG"
+          [ -n "$TRACEY" ] && echo "tracey      : $TRACEY"
+          [ -n "$NAV" ]    && echo "navigation  : $NAV"
+          [ -n "$NAV3" ]   && echo "navigation3 : $NAV3"
+
+      - name: Bump versions in gradle.properties
+        run: |
+          TRACEY="${{ github.event.inputs.tracey_version }}"
+          NAV="${{ github.event.inputs.tracey_navigation_version }}"
+          NAV3="${{ github.event.inputs.tracey_navigation3_version }}"
+
+          if [ -n "$TRACEY" ]; then
+            sed -i '' "s/^tracey\.version=.*/tracey.version=$TRACEY/" gradle.properties
+          fi
+          if [ -n "$NAV" ]; then
+            sed -i '' "s/^tracey\.navigation\.version=.*/tracey.navigation.version=$NAV/" gradle.properties
+          fi
+          if [ -n "$NAV3" ]; then
+            sed -i '' "s/^tracey\.navigation3\.version=.*/tracey.navigation3.version=$NAV3/" gradle.properties
+          fi
+
+          grep -E "^tracey.*\.version=" gradle.properties
+
+      - name: Check binary compatibility
+        run: |
+          ./gradlew :tracey:apiCheck --no-daemon
+
+      - name: Publish to Maven Central
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralUsername:        ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword:        ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKey:          ${{ secrets.GPG_KEY_CONTENTS }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword:  ${{ secrets.MAVEN_CENTRAL_VERIFICATION_TOKEN }}
+        run: ./gradlew publishAllPublicationsToMavenCentralRepository --no-daemon
+
+      - name: Commit version bump
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add gradle.properties
+          git commit -m "Release ${{ github.event.inputs.release_tag }}"
+          git push origin HEAD
+
+      - name: Create and push tag
+        run: |
+          git tag "${{ github.event.inputs.release_tag }}"
+          git push origin "${{ github.event.inputs.release_tag }}"
+
+      - name: Build release notes
+        id: notes
+        run: |
+          TRACEY="${{ github.event.inputs.tracey_version }}"
+          NAV="${{ github.event.inputs.tracey_navigation_version }}"
+          NAV3="${{ github.event.inputs.tracey_navigation3_version }}"
+
+          MODULES=""
+          [ -n "$TRACEY" ] && MODULES="${MODULES}\n- \`com.himanshoe:tracey:${TRACEY}\`"
+          [ -n "$NAV" ]    && MODULES="${MODULES}\n- \`com.himanshoe:tracey-navigation:${NAV}\`"
+          [ -n "$NAV3" ]   && MODULES="${MODULES}\n- \`com.himanshoe:tracey-navigation3:${NAV3}\`"
+
+          echo "modules<<EOF" >> $GITHUB_OUTPUT
+          printf "${MODULES}" >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "${{ github.event.inputs.release_tag }}"
+          name: "${{ github.event.inputs.release_tag }}"
+          generate_release_notes: true
+          body: |
+            ## Updated artifacts
+
+            ${{ steps.notes.outputs.modules }}
+
+            ## Installation
+
+            ```kotlin
+            commonMain.dependencies {
+                implementation("com.himanshoe:tracey:<version>")
+                implementation("com.himanshoe:tracey-navigation:<version>")
+            }
+            // Android-only
+            dependencies {
+                implementation("com.himanshoe:tracey-navigation3:<version>")
+            }
+            ```
