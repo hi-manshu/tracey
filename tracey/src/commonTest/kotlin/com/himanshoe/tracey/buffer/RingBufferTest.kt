@@ -114,4 +114,38 @@ class RingBufferTest {
         assertEquals("Second", snapshot[0].path)
         assertEquals("Third", snapshot[1].path)
     }
+
+    // snapshotUnsafe — used by the crash handler (no coroutine context available)
+
+    @Test
+    fun snapshotUnsafeOnEmptyBufferReturnsEmptyList() {
+        val snapshot = buffer().snapshotUnsafe()
+        assertTrue(snapshot.isEmpty())
+    }
+
+    @Test
+    fun snapshotUnsafeReturnsAllEventsWithoutSuspending() = runTest {
+        val buf = buffer()
+        buf.add(click(timestampMs = 1_000L, path = "A"))
+        buf.add(click(timestampMs = 2_000L, path = "B"))
+        buf.add(click(timestampMs = 3_000L, path = "C"))
+
+        val snapshot = buf.snapshotUnsafe()
+
+        assertEquals(3, snapshot.size)
+        assertEquals("A", snapshot[0].path)
+        assertEquals("C", snapshot[2].path)
+    }
+
+    @Test
+    fun snapshotUnsafeMatchesSuspendingSnapshotWhenNoContention() = runTest {
+        val buf = buffer()
+        buf.add(click(timestampMs = 1_000L))
+        buf.add(click(timestampMs = 2_000L))
+
+        val safe = buf.snapshot()
+        val unsafe = buf.snapshotUnsafe()
+
+        assertEquals(safe, unsafe)
+    }
 }

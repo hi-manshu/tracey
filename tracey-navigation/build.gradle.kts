@@ -30,7 +30,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(compose.runtime)
-            api(project(":tracey"))
+            implementation(project(":tracey"))
             implementation(libs.navigation.compose)
         }
     }

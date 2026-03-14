@@ -322,8 +322,9 @@ object Tracey {
     }
 
     private fun buildPayloadBlocking(crashReason: String): ReplayPayload {
-        val events = runCatching { buffer.size }.getOrElse { 0 }
+        val events = runCatching { buffer.snapshotUnsafe() }.getOrElse { emptyList() }
         val nowMs = currentEpochMillis()
+        val firstMs = events.firstOrNull()?.timestampMs ?: nowMs
         val device = runCatching { getDeviceInfo() }.getOrElse {
             DeviceInfo(
                 platform = "Unknown",
@@ -342,11 +343,11 @@ object Tracey {
             sessionId = runCatching { config.sessionIdProvider() }.getOrElse { "crash-session" },
             appVersion = device.appVersion,
             capturedAtMs = nowMs,
-            durationMs = 0L,
+            durationMs = nowMs - firstMs,
             crashReason = crashReason,
             deviceInfo = device,
-            events = emptyList(),
-            timeline = "💥 CRASH: $crashReason",
+            events = events,
+            timeline = buildTimeline(events, crashReason, firstMs),
         )
     }
 

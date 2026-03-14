@@ -4,15 +4,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme
-import com.himanshoe.tracey.TraceyHost
-import com.himanshoe.tracey.rememberTraceyConfig
-import com.himanshoe.tracey.reporter.builtin.LogcatReporter
 
 /**
- * Entry point activity for the Tracey sample app.
+ * No TraceyHost here — Tracey is installed in [SampleApplication].
  *
- * The only Tracey-specific call here is wrapping [setContent] with [TraceyHost].
- * Everything inside is recorded automatically.
+ * Gesture recording (clicks, scrolls, swipes) is unavailable in this flow.
+ * Screen views, breadcrumbs, lifecycle events, and crash recovery all work.
  */
 class MainActivity : ComponentActivity() {
 
@@ -20,14 +17,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MaterialTheme {
-                TraceyHost(
-                    traceyConfig = rememberTraceyConfig(
-                        showOverlay = false,
-                        reporters = listOf(LogcatReporter()),
-                    )
-                ) {
-                    SampleApp()
-                }
+                SampleApp()
             }
         }
     }

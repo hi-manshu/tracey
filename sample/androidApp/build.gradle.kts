@@ -38,6 +38,8 @@ android {
 
 dependencies {
     implementation(project(":tracey"))
+    implementation(project(":tracey-navigation"))
+    implementation(libs.navigation.compose)
     val composeBom = platform(libs.compose.bom)
     implementation(composeBom)
     implementation(libs.androidx.activity.compose)

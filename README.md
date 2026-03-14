@@ -46,8 +46,11 @@ kotlin {
         commonMain.dependencies {
             implementation("com.himanshoe:tracey:<version>")
 
-            // Optional — only if you use Compose Multiplatform Navigation
+            // Optional — only if you use Compose Multiplatform Navigation.
+            // Both dependencies must be declared explicitly; tracey-navigation
+            // does not expose them transitively.
             implementation("com.himanshoe:tracey-navigation:<version>")
+            implementation("org.jetbrains.androidx.navigation:navigation-compose:<version>")
         }
     }
 }
@@ -136,6 +139,90 @@ val testCode: String = Tracey.captureAndExportTest()
 // Save to platform storage:
 val result: Result<String> = Tracey.captureAndExportFile()
 ```
+
+---
+
+## Setup modes
+
+Tracey supports two installation modes. Choose the one that fits your app architecture.
+
+### Mode 1 — `TraceyHost` (recommended)
+
+Install Tracey inside your root composable. Gesture recording (clicks, scrolls, swipes, long presses, pinches) is only available in this mode.
+
+```kotlin
+// MainActivity / root composable
+setContent {
+    TraceyHost(
+        traceyConfig = rememberTraceyConfig(
+            reporters = listOf(LogcatReporter()),
+        )
+    ) {
+        MyApp()
+    }
+}
+```
+
+What you get:
+- All gesture events (click, scroll, swipe, long press, pinch)
+- Lifecycle events (foreground / background)
+- Screen views via `TraceyScreen`, `Tracey.screen()`, or `tracey-navigation`
+- Custom breadcrumbs via `Tracey.log()`
+- Crash recovery — pre-crash event history replayed on next launch
+
+**Trade-off:** The crash handler and lifecycle observer start at first composition. Crashes during early startup (DI, database migrations) before the first `setContent` call are not captured.
+
+---
+
+### Mode 2 — Application-only (no `TraceyHost`)
+
+Install Tracey in `Application.onCreate()` and track screens manually. Use this when you cannot or do not want to wrap your root composable.
+
+```kotlin
+// Application.onCreate()
+Tracey.install(
+    TraceyConfig(
+        reporters = listOf(LogcatReporter()),
+        trackLifecycle = true,
+    )
+)
+```
+
+For screen tracking, attach a destination-changed listener to your `NavController`:
+
+```kotlin
+// In your root composable
+DisposableEffect(navController) {
+    val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
+        Tracey.route(destination.route ?: return@OnDestinationChangedListener)
+    }
+    navController.addOnDestinationChangedListener(listener)
+    onDispose { navController.removeOnDestinationChangedListener(listener) }
+}
+```
+
+What you get:
+- Lifecycle events (foreground / background) — via `ActivityLifecycleCallbacks`
+- Screen views — via `Tracey.route()` / `Tracey.screen()` / `Tracey.log()`
+- Custom breadcrumbs via `Tracey.log()`
+- Crash recovery — crash handler is active **before the first composition**, so early-startup crashes are also captured
+
+**Trade-off:** Gesture recording (clicks, scrolls, swipes, long presses, pinches) is **not available**. Only events you record explicitly appear in the timeline.
+
+---
+
+### Comparison
+
+| Capability | `TraceyHost` | Application-only |
+|------------|:---:|:---:|
+| Click / long press / scroll / swipe / pinch | ✅ | ❌ |
+| App foreground / background | ✅ | ✅ |
+| Screen views | ✅ | ✅ (manual) |
+| Custom breadcrumbs (`Tracey.log`) | ✅ | ✅ |
+| Crash recovery | ✅ | ✅ |
+| Crash handler active before first composition | ❌ | ✅ |
+
+You can also combine both modes: call `Tracey.install()` in `Application.onCreate()` for early crash capture, then use `TraceyHost` in your composable for full gesture recording. `TraceyHost` detects an existing installation and skips re-installation.
 
 ---
 

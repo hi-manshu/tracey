@@ -4,59 +4,127 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.himanshoe.tracey.Tracey
 import kotlinx.coroutines.launch
 
+// ── Navigation routes ──────────────────────────────────────────────────────
+private const val ROUTE_HOME   = "HomeScreen"
+private const val ROUTE_DETAIL = "DetailScreen/{productId}"
+
+private fun detailRoute(productId: Int) = "DetailScreen/$productId"
+
+// ── Root ───────────────────────────────────────────────────────────────────
+
 /**
- * Sample app UI demonstrating Tracey recording. Every interaction in this
- * screen is captured and can be replayed via the overlay capture button or
- * [Tracey.capture].
+ * Application-class-only Tracey flow.
  *
- * The `testTag` modifiers on key composables feed directly into the semantic
- * path that Tracey resolves per event — e.g. `"ProductList > ProductCard[2]"`.
+ * Tracey is installed in [SampleApplication] — no [com.himanshoe.tracey.TraceyHost]
+ * is used anywhere. Screen tracking is wired manually via [NavController]'s
+ * destination-changed listener, which calls [Tracey.route] on every navigation.
+ *
+ * What is recorded:
+ *  - ScreenView  — via [Tracey.route] in the destination listener below
+ *  - Breadcrumb  — via [Tracey.log] in button onClick handlers
+ *  - AppForeground / AppBackground — automatically via ActivityLifecycleCallbacks
+ *  - Crash + pre-crash history — automatically via uncaught exception handler
+ *
+ * What is NOT recorded (requires TraceyHost):
+ *  - Clicks, scrolls, swipes, long presses, pinches
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SampleApp() {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = ROUTE_HOME) {
+        composable(ROUTE_HOME) {
+            HomeScreen(navController = navController)
+        }
+        composable(ROUTE_DETAIL) { backStack ->
+            val productId = backStack.arguments?.getString("productId")?.toIntOrNull() ?: 0
+            DetailScreen(
+                product = sampleProducts.getOrNull(productId) ?: sampleProducts.first(),
+                onBack  = { navController.popBackStack() },
+            )
+        }
+    }
+}
+
+// ── HomeScreen ─────────────────────────────────────────────────────────────
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun HomeScreen(navController: NavHostController) {
     val scope = rememberCoroutineScope()
 
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        topBar = {
-            TopAppBar(title = { Text("Tracey Sample") })
-        },
+        topBar = { TopAppBar(title = { Text("Tracey Sample") }) },
     ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding),
         ) {
-            Button(
-                onClick = {
-                    scope.launch { Tracey.capture() }
-                },
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
-                    .testTag("CaptureButton"),
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                Text("Manual Capture")
+                Button(
+                    onClick = {
+                        Tracey.log("Manual capture triggered from HomeScreen")
+                        scope.launch { Tracey.capture() }
+                    },
+                    modifier = Modifier
+                        .weight(1f)
+                        .testTag("CaptureButton"),
+                ) {
+                    Text("Capture")
+                }
+
+                // Logs a breadcrumb then crashes — on next launch the crash payload
+                // (with the full pre-crash event history) is logged via LogcatReporter.
+                Button(
+                    onClick = {
+                        Tracey.log("Crash button tapped — about to throw")
+                        throw RuntimeException(
+                            "Simulated crash — check LogcatReporter on next launch"
+                        )
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.error,
+                    ),
+                    modifier = Modifier
+                        .weight(1f)
+                        .testTag("CrashButton"),
+                ) {
+                    Text("Crash!")
+                }
             }
 
             LazyColumn(
@@ -67,16 +135,82 @@ fun SampleApp() {
                 verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 items(sampleProducts, key = { it.id }) { product ->
-                    ProductCard(product = product)
+                    ProductCard(
+                        product = product,
+                        onClick = {
+                            Tracey.log("Opened product: ${product.name}")
+                            navController.navigate(detailRoute(product.id))
+                        },
+                    )
                 }
             }
         }
     }
 }
 
+// ── DetailScreen ───────────────────────────────────────────────────────────
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun ProductCard(product: Product) {
+private fun DetailScreen(product: Product, onBack: () -> Unit) {
+    val scope = rememberCoroutineScope()
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(product.name) },
+                colors = TopAppBarDefaults.topAppBarColors(),
+                navigationIcon = {
+                    Button(onClick = onBack) { Text("←") }
+                },
+            )
+        },
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(24.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+            Text(text = product.name, style = MaterialTheme.typography.headlineMedium)
+            Text(text = product.price, style = MaterialTheme.typography.titleLarge)
+            Text(text = product.description, style = MaterialTheme.typography.bodyMedium)
+
+            Spacer(Modifier.height(8.dp))
+
+            Button(
+                onClick = {
+                    Tracey.log("Added to cart: ${product.name} @ ${product.price}")
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag("AddToCartButton"),
+            ) {
+                Text("Add to Cart")
+            }
+
+            Button(
+                onClick = {
+                    Tracey.log("Checkout initiated from DetailScreen")
+                    scope.launch { Tracey.capture() }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag("CheckoutButton"),
+            ) {
+                Text("Checkout")
+            }
+        }
+    }
+}
+
+// ── ProductCard ────────────────────────────────────────────────────────────
+
+@Composable
+private fun ProductCard(product: Product, onClick: () -> Unit) {
     Card(
+        onClick  = onClick,
         modifier = Modifier
             .fillMaxWidth()
             .testTag("ProductCard[${product.id}]"),
@@ -88,21 +222,33 @@ private fun ProductCard(product: Product) {
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Column(modifier = Modifier.weight(1f)) {
-                Text(text = product.name)
-                Text(text = product.price)
+                Text(text = product.name, style = MaterialTheme.typography.titleMedium)
+                Text(text = product.price, style = MaterialTheme.typography.bodySmall)
             }
-            Button(
-                onClick = {},
-                modifier = Modifier.testTag("AddToCartButton"),
-            ) {
-                Text("Add")
-            }
+            Text(
+                text = "›",
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.padding(start = 8.dp),
+            )
         }
     }
 }
 
-private data class Product(val id: Int, val name: String, val price: String)
+// ── Data ───────────────────────────────────────────────────────────────────
+
+private data class Product(
+    val id: Int,
+    val name: String,
+    val price: String,
+    val description: String,
+)
 
 private val sampleProducts = List(20) { i ->
-    Product(id = i, name = "Product ${i + 1}", price = "$${(i + 1) * 10}.99")
+    Product(
+        id          = i,
+        name        = "Product ${i + 1}",
+        price       = "$${(i + 1) * 10}.99",
+        description = "This is the full description for Product ${i + 1}. " +
+            "Tap 'Add to Cart' to log a breadcrumb, or 'Checkout' to trigger a capture.",
+    )
 }

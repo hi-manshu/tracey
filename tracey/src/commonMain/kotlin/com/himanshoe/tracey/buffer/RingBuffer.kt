@@ -74,6 +74,19 @@ internal class RingBuffer(
     /** Returns the current number of events without acquiring the mutex. Approximate. */
     val size: Int get() = buffer.size
 
+    /**
+     * Returns a best-effort snapshot without acquiring the mutex.
+     *
+     * **Only call this from a crash handler or other last-resort path** where the
+     * process is about to terminate and a coroutine context is not available.
+     * Under normal circumstances always prefer the suspending [snapshot].
+     *
+     * A concurrent [add] may produce a slightly inconsistent list (e.g. a single
+     * event appearing twice or not at all), but for crash reporting this is an
+     * acceptable trade-off over losing all event history.
+     */
+    fun snapshotUnsafe(): List<InteractionEvent> = buffer.toList()
+
     private fun prune(nowMs: Long) {
         val cutoffMs = nowMs - maxDurationMs
         while (buffer.isNotEmpty() && buffer.first().timestampMs < cutoffMs) {
