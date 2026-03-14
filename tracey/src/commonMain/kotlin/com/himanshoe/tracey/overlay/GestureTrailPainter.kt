@@ -144,7 +144,7 @@ internal object GestureTrailPainter {
             val curr = points[i]
             val midX = (prev.x + curr.x) / 2f
             val midY = (prev.y + curr.y) / 2f
-            path.quadraticBezierTo(prev.x, prev.y, midX, midY)
+            path.quadraticTo(prev.x, prev.y, midX, midY)
         }
         path.lineTo(points.last().x, points.last().y)
         return path

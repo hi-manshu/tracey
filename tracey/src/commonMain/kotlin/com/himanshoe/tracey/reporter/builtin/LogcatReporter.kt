@@ -4,7 +4,7 @@ import com.himanshoe.tracey.model.InteractionEvent
 import com.himanshoe.tracey.model.ReplayPayload
 import com.himanshoe.tracey.platform.platformLog
 import com.himanshoe.tracey.reporter.TraceyReporter
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 

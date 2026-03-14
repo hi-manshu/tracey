@@ -5,7 +5,7 @@
  */
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
-    alias(libs.plugins.android.library)
+    alias(libs.plugins.android.kotlin.multiplatform.library)
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.binary.compatibility)
@@ -17,7 +17,11 @@ group   = "com.himanshoe"
 version = "0.1.0"
 
 kotlin {
-    androidTarget {
+    androidLibrary {
+        namespace  = "com.himanshoe.tracey.navigation"
+        compileSdk = libs.versions.compileSdk.get().toInt()
+        minSdk     = libs.versions.minSdk.get().toInt()
+
         compilerOptions {
             jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
         }
@@ -34,25 +38,6 @@ kotlin {
             implementation(libs.navigation.compose)
         }
     }
-}
-
-android {
-    namespace  = "com.himanshoe.tracey.navigation"
-    compileSdk = libs.versions.compileSdk.get().toInt()
-
-    defaultConfig {
-        minSdk = libs.versions.minSdk.get().toInt()
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    buildFeatures { compose = true }
-
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 }
 
 publishing {

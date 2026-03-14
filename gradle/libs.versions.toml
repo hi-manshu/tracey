@@ -33,8 +33,9 @@ compose-ui-tooling         = { group = "androidx.compose.ui",        name = "ui-
 compose-ui-tooling-preview = { group = "androidx.compose.ui",        name = "ui-tooling-preview" }
 
 [plugins]
-android-application      = { id = "com.android.application",                   version.ref = "agp" }
-android-library          = { id = "com.android.library",                        version.ref = "agp" }
+android-application                    = { id = "com.android.application",                          version.ref = "agp" }
+android-library                        = { id = "com.android.library",                               version.ref = "agp" }
+android-kotlin-multiplatform-library   = { id = "com.android.kotlin.multiplatform.library",          version.ref = "agp" }
 kotlin-multiplatform     = { id = "org.jetbrains.kotlin.multiplatform",         version.ref = "kotlin" }
 kotlin-android           = { id = "org.jetbrains.kotlin.android",               version.ref = "kotlin" }
 kotlin-compose           = { id = "org.jetbrains.kotlin.plugin.compose",        version.ref = "kotlin" }
