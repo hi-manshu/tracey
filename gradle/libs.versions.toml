@@ -1,24 +1,23 @@
 [versions]
-agp                     = "9.0.0"
-kotlin                  = "2.2.10"
-composeMultiplatform    = "1.7.3"
-compileSdk              = "35"
+agp                     = "9.0.1"
+kotlin                  = "2.3.10"
+composeMultiplatform    = "1.10.2"
+compileSdk              = "36"
 minSdk                  = "24"
-targetSdk               = "35"
-kotlinxCoroutines       = "1.9.0"
-kotlinxSerializationJson = "1.7.3"
-kotlinxDatetime         = "0.6.1"
-kotlinxCoroutinesTest   = "1.9.0"
-binaryCompatibility     = "0.16.3"
-activityCompose         = "1.9.3"
-composeBom              = "2024.12.01"
-navigationCompose       = "2.8.0-alpha10"
+targetSdk               = "36"
+kotlinxCoroutines       = "1.10.2"
+kotlinxSerializationJson = "1.10.0"
+kotlinxDatetime         = "0.7.1"
+kotlinxCoroutinesTest   = "1.10.2"
+binaryCompatibility     = "0.18.1"
+activityCompose         = "1.13.0"
+composeBom              = "2026.03.00"
+navigationCompose       = "2.9.2"
 
 [libraries]
 # Kotlin
 kotlinx-coroutines-core    = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core",    version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
-kotlinx-coroutines-swing   = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing",   version.ref = "kotlinxCoroutines" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 kotlinx-datetime           = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime",           version.ref = "kotlinxDatetime" }
 kotlinx-coroutines-test    = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test",    version.ref = "kotlinxCoroutinesTest" }

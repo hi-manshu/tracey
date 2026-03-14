@@ -26,6 +26,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -33,33 +34,23 @@ import androidx.navigation.compose.rememberNavController
 import com.himanshoe.tracey.Tracey
 import kotlinx.coroutines.launch
 
-// ── Navigation routes ──────────────────────────────────────────────────────
 private const val ROUTE_HOME   = "HomeScreen"
 private const val ROUTE_DETAIL = "DetailScreen/{productId}"
 
 private fun detailRoute(productId: Int) = "DetailScreen/$productId"
 
-// ── Root ───────────────────────────────────────────────────────────────────
-
-/**
- * Application-class-only Tracey flow.
- *
- * Tracey is installed in [SampleApplication] — no [com.himanshoe.tracey.TraceyHost]
- * is used anywhere. Screen tracking is wired manually via [NavController]'s
- * destination-changed listener, which calls [Tracey.route] on every navigation.
- *
- * What is recorded:
- *  - ScreenView  — via [Tracey.route] in the destination listener below
- *  - Breadcrumb  — via [Tracey.log] in button onClick handlers
- *  - AppForeground / AppBackground — automatically via ActivityLifecycleCallbacks
- *  - Crash + pre-crash history — automatically via uncaught exception handler
- *
- * What is NOT recorded (requires TraceyHost):
- *  - Clicks, scrolls, swipes, long presses, pinches
- */
 @Composable
 fun SampleApp() {
     val navController = rememberNavController()
+
+    DisposableEffect(navController) {
+        val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
+            destination.route?.let { Tracey.route(it) }
+        }
+        navController.addOnDestinationChangedListener(listener)
+        onDispose { navController.removeOnDestinationChangedListener(listener) }
+    }
+
     NavHost(navController = navController, startDestination = ROUTE_HOME) {
         composable(ROUTE_HOME) {
             HomeScreen(navController = navController)
@@ -73,8 +64,6 @@ fun SampleApp() {
         }
     }
 }
-
-// ── HomeScreen ─────────────────────────────────────────────────────────────
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -107,8 +96,6 @@ private fun HomeScreen(navController: NavHostController) {
                     Text("Capture")
                 }
 
-                // Logs a breadcrumb then crashes — on next launch the crash payload
-                // (with the full pre-crash event history) is logged via LogcatReporter.
                 Button(
                     onClick = {
                         Tracey.log("Crash button tapped — about to throw")
@@ -147,8 +134,6 @@ private fun HomeScreen(navController: NavHostController) {
         }
     }
 }
-
-// ── DetailScreen ───────────────────────────────────────────────────────────
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -205,8 +190,6 @@ private fun DetailScreen(product: Product, onBack: () -> Unit) {
     }
 }
 
-// ── ProductCard ────────────────────────────────────────────────────────────
-
 @Composable
 private fun ProductCard(product: Product, onClick: () -> Unit) {
     Card(
@@ -233,8 +216,6 @@ private fun ProductCard(product: Product, onClick: () -> Unit) {
         }
     }
 }
-
-// ── Data ───────────────────────────────────────────────────────────────────
 
 private data class Product(
     val id: Int,

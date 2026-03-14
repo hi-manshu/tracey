@@ -70,7 +70,7 @@ publishing {
             developers {
                 developer {
                     id.set("himanshoe")
-                    name.set("Himanshu Hoe")
+                    name.set("Himanshu Singh")
                     url.set("https://github.com/himanshoe")
                 }
             }
