@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+        TraceyInitProvider auto-initialises the SDK before any application code
+        runs using the ContentProvider initialisation trick. This means the user
+        never needs to pass a Context — it is captured here automatically.
+        The provider has no exported surface and is completely internal.
+    -->
+    <application>
+        <provider
+            android:name="com.himanshoe.tracey.TraceyInitProvider"
+            android:authorities="${applicationId}.tracey.init"
+            android:exported="false"
+            android:initOrder="100" />
+    </application>
+
+</manifest>

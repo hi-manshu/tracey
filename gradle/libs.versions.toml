@@ -1,0 +1,44 @@
+[versions]
+agp                     = "9.0.0"
+kotlin                  = "2.2.10"
+composeMultiplatform    = "1.7.3"
+compileSdk              = "35"
+minSdk                  = "24"
+targetSdk               = "35"
+kotlinxCoroutines       = "1.9.0"
+kotlinxSerializationJson = "1.7.3"
+kotlinxDatetime         = "0.6.1"
+kotlinxCoroutinesTest   = "1.9.0"
+binaryCompatibility     = "0.16.3"
+activityCompose         = "1.9.3"
+composeBom              = "2024.12.01"
+navigationCompose       = "2.8.0-alpha10"
+
+[libraries]
+# Kotlin
+kotlinx-coroutines-core    = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core",    version.ref = "kotlinxCoroutines" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
+kotlinx-coroutines-swing   = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing",   version.ref = "kotlinxCoroutines" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+kotlinx-datetime           = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime",           version.ref = "kotlinxDatetime" }
+kotlinx-coroutines-test    = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test",    version.ref = "kotlinxCoroutinesTest" }
+
+# AndroidX
+androidx-activity-compose  = { group = "androidx.activity",          name = "activity-compose",    version.ref = "activityCompose" }
+navigation-compose         = { group = "org.jetbrains.androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
+
+# Compose BOM (for Android-only modules)
+compose-bom                = { group = "androidx.compose",           name = "compose-bom",         version.ref = "composeBom" }
+compose-material3          = { group = "androidx.compose.material3", name = "material3" }
+compose-ui-tooling         = { group = "androidx.compose.ui",        name = "ui-tooling" }
+compose-ui-tooling-preview = { group = "androidx.compose.ui",        name = "ui-tooling-preview" }
+
+[plugins]
+android-application      = { id = "com.android.application",                   version.ref = "agp" }
+android-library          = { id = "com.android.library",                        version.ref = "agp" }
+kotlin-multiplatform     = { id = "org.jetbrains.kotlin.multiplatform",         version.ref = "kotlin" }
+kotlin-android           = { id = "org.jetbrains.kotlin.android",               version.ref = "kotlin" }
+kotlin-compose           = { id = "org.jetbrains.kotlin.plugin.compose",        version.ref = "kotlin" }
+kotlin-serialization     = { id = "org.jetbrains.kotlin.plugin.serialization",  version.ref = "kotlin" }
+compose-multiplatform    = { id = "org.jetbrains.compose",                      version.ref = "composeMultiplatform" }
+binary-compatibility     = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binaryCompatibility" }
