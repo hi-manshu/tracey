@@ -67,30 +67,13 @@ publishing {
         }
     }
 
-    repositories {
-        maven {
-            name = "sonatype"
-            url = uri(
-                if (version.toString().endsWith("SNAPSHOT"))
-                    "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-                else
-                    "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-            )
-            credentials {
-                username = providers.gradleProperty("ossrhUsername").orNull
-                    ?: System.getenv("OSSRH_USERNAME")
-                password = providers.gradleProperty("ossrhPassword").orNull
-                    ?: System.getenv("OSSRH_PASSWORD")
-            }
-        }
-    }
 }
 
 signing {
     val signingKey = providers.gradleProperty("signingKey").orNull
-        ?: System.getenv("SIGNING_KEY")
+        ?: System.getenv("GPG_KEY_CONTENTS")
     val signingPassword = providers.gradleProperty("signingPassword").orNull
-        ?: System.getenv("SIGNING_PASSWORD")
+        ?: System.getenv("MAVEN_CENTRAL_VERIFICATION_TOKEN")
     if (signingKey != null && signingPassword != null) {
         useInMemoryPgpKeys(signingKey, signingPassword)
         sign(publishing.publications)

@@ -12,6 +12,9 @@ jobs:
   release:
     name: Publish to Maven Central
     runs-on: macos-latest
+    if: github.actor == github.repository_owner
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout
@@ -27,8 +30,6 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
-        with:
-          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
 
       - name: Validate version format
         run: |
@@ -38,32 +39,36 @@ jobs:
             exit 1
           fi
 
-      - name: Set version in build.gradle.kts
+      - name: Set version in build files
         run: |
           VERSION="${{ github.event.inputs.version }}"
           sed -i '' "s/^version = .*/version = \"$VERSION\"/" tracey/build.gradle.kts
+          sed -i '' "s/^version = .*/version = \"$VERSION\"/" tracey-navigation/build.gradle.kts
           echo "Version set to $VERSION"
           grep '^version' tracey/build.gradle.kts
+          grep '^version' tracey-navigation/build.gradle.kts
 
       - name: Run tests
-        run: ./gradlew :tracey:desktopTest --no-daemon
+        run: ./gradlew :tracey:testDebugUnitTest --no-daemon
 
       - name: Check binary compatibility
-        run: ./gradlew :tracey:apiCheck --no-daemon
+        run: |
+          ./gradlew :tracey:apiCheck --no-daemon
+          ./gradlew :tracey-navigation:apiCheck --no-daemon
 
       - name: Publish to Maven Central
         env:
-          OSSRH_USERNAME:   ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_PASSWORD:   ${{ secrets.OSSRH_PASSWORD }}
-          SIGNING_KEY:      ${{ secrets.SIGNING_KEY }}
-          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
-        run: ./gradlew :tracey:publishAllPublicationsToSonatypeRepository --no-daemon
+          MAVEN_CENTRAL_USERNAME:           ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          MAVEN_CENTRAL_PASSWORD:           ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+          GPG_KEY_CONTENTS:                 ${{ secrets.GPG_KEY_CONTENTS }}
+          MAVEN_CENTRAL_VERIFICATION_TOKEN: ${{ secrets.MAVEN_CENTRAL_VERIFICATION_TOKEN }}
+        run: ./gradlew publishAllPublicationsToSonatypeRepository closeAndReleaseSonatypeStagingRepository --no-daemon
 
       - name: Commit version bump
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add tracey/build.gradle.kts
+          git add tracey/build.gradle.kts tracey-navigation/build.gradle.kts
           git commit -m "Release v${{ github.event.inputs.version }}"
           git push origin HEAD
 
@@ -85,5 +90,7 @@ jobs:
             // build.gradle.kts
             commonMain.dependencies {
                 implementation("com.himanshoe:tracey:${{ github.event.inputs.version }}")
+                // Optional: Navigation integration
+                implementation("com.himanshoe:tracey-navigation:${{ github.event.inputs.version }}")
             }
             ```

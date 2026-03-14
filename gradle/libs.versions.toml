@@ -10,6 +10,7 @@ kotlinxSerializationJson = "1.10.0"
 kotlinxDatetime         = "0.7.1"
 kotlinxCoroutinesTest   = "1.10.2"
 binaryCompatibility     = "0.18.1"
+nexusPublish            = "2.0.0"
 activityCompose         = "1.13.0"
 composeBom              = "2026.03.00"
 navigationCompose       = "2.9.2"
@@ -42,3 +43,4 @@ kotlin-compose           = { id = "org.jetbrains.kotlin.plugin.compose",        
 kotlin-serialization     = { id = "org.jetbrains.kotlin.plugin.serialization",  version.ref = "kotlin" }
 compose-multiplatform    = { id = "org.jetbrains.compose",                      version.ref = "composeMultiplatform" }
 binary-compatibility     = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binaryCompatibility" }
+nexus-publish            = { id = "io.github.gradle-nexus.publish-plugin",               version.ref = "nexusPublish" }
