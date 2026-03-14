@@ -2,6 +2,7 @@
 
 A Kotlin Multiplatform SDK for recording user interactions — gestures, screen views, breadcrumbs, and crashes — and replaying them as a timeline on Android and iOS.
 
+[![Maven Central](https://img.shields.io/maven-central/v/com.himanshoe/tracey?label=Maven%20Central)](https://central.sonatype.com/artifact/com.himanshoe/tracey)
 [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-support-yellow?logo=buy-me-a-coffee)](https://buymeacoffee.com/himanshoe)
 
 ## What it does
