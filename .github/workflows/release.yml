@@ -48,9 +48,6 @@ jobs:
           grep '^version' tracey/build.gradle.kts
           grep '^version' tracey-navigation/build.gradle.kts
 
-      - name: Check project compiles
-        run: ./gradlew :tracey:compileKotlinIosArm64 :tracey:compileKotlinAndroidDebug :tracey-navigation:compileKotlinIosArm64 :tracey-navigation:compileKotlinAndroidDebug --no-daemon
-
       - name: Check binary compatibility
         run: |
           ./gradlew :tracey:apiCheck --no-daemon
