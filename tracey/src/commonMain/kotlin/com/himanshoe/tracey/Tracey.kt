@@ -1,5 +1,9 @@
 package com.himanshoe.tracey
 
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Canvas
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.layer.GraphicsLayer
 import com.himanshoe.tracey.buffer.RingBuffer
 import com.himanshoe.tracey.crash.CrashHandler
@@ -13,6 +17,7 @@ import com.himanshoe.tracey.platform.getDeviceInfo
 import com.himanshoe.tracey.platform.installLifecycleObserver
 import com.himanshoe.tracey.export.ReplayHtmlExporter
 import com.himanshoe.tracey.platform.saveToDisk
+import com.himanshoe.tracey.privacy.TraceyMaskRegistry
 import com.himanshoe.tracey.recording.RecordingEngine
 import com.himanshoe.tracey.recording.SemanticPathResolver
 import com.himanshoe.tracey.reporter.ReporterDispatcher
@@ -305,7 +310,11 @@ object Tracey {
         val firstMs = events.firstOrNull()?.timestampMs ?: nowMs
         val device = getDeviceInfo()
         val screenshotPng = withContext(Dispatchers.Main) {
-            runCatching { screenshotLayer?.toImageBitmap()?.let { encodePng(it) } }.getOrNull()
+            runCatching {
+                screenshotLayer?.toImageBitmap()
+                    ?.let { applyMasks(it) }
+                    ?.let { encodePng(it) }
+            }.getOrNull()
         }
 
         return ReplayPayload(
@@ -319,6 +328,18 @@ object Tracey {
             timeline = buildTimeline(events, crashReason, firstMs),
             screenshotPng = screenshotPng,
         )
+    }
+
+    private fun applyMasks(source: ImageBitmap): ImageBitmap {
+        val regions = TraceyMaskRegistry.snapshot()
+        if (regions.isEmpty()) return source
+        val result = ImageBitmap(source.width, source.height)
+        val canvas = Canvas(result)
+        canvas.drawImage(source, Offset.Zero, Paint())
+        regions.forEach { (rect, color) ->
+            canvas.drawRect(rect, Paint().apply { this.color = color })
+        }
+        return result
     }
 
     private fun buildPayloadBlocking(crashReason: String): ReplayPayload {

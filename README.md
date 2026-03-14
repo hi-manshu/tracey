@@ -11,6 +11,28 @@ A Kotlin Multiplatform SDK for recording user interactions — gestures, screen 
 - Captures a ring-buffer snapshot on crash and replays it on next launch
 - Routes captured sessions to any reporter (Logcat, Slack, webhook, etc.)
 
+## Installation
+
+Add the dependency to your shared module's `build.gradle.kts`:
+
+```kotlin
+commonMain.dependencies {
+    implementation("com.himanshoe:tracey:0.1.0")
+}
+```
+
+For automatic screen tracking with Compose Navigation, also add:
+
+```kotlin
+commonMain.dependencies {
+    implementation("com.himanshoe:tracey:0.1.0")
+    implementation("com.himanshoe:tracey-navigation:0.1.0")
+    implementation("org.jetbrains.androidx.navigation:navigation-compose:<version>")
+}
+```
+
+> `tracey-navigation` does not expose `navigation-compose` transitively — declare it explicitly.
+
 ## Setup
 
 ```kotlin
@@ -67,6 +89,25 @@ Tracey.captureAndExportTest()     // returns a Compose UI test as a Kotlin strin
 Tracey.captureAndExportFile()     // saves JSON to platform storage
 ```
 
+## Privacy
+
+Mark sensitive composables so their region is replaced with a solid rectangle in screenshots:
+
+```kotlin
+TextField(
+    value = cardNumber,
+    onValueChange = { cardNumber = it },
+    modifier = Modifier
+        .fillMaxWidth()
+        .traceyMask(),           // black by default
+)
+
+// Custom colour
+Text(ssn, modifier = Modifier.traceyMask(maskColor = Color.Red))
+```
+
+The composable renders normally on screen — only captured screenshots are affected.
+
 ## Custom reporters
 
 Tracey ships with `LogcatReporter` for development. For production, implement `TraceyReporter` to send data anywhere:
@@ -89,10 +130,12 @@ See [`docs/reporters/`](docs/reporters/) for full examples — Firebase Crashlyt
 
 ## Platforms
 
-| Platform | Gestures | Lifecycle | Crash |
-|----------|:--------:|:---------:|:-----:|
-| Android  | ✅       | ✅        | ✅    |
-| iOS      | ✅       | ✅        | ✅    |
+| Platform | Gestures | Lifecycle | Crash | Event paths |
+|----------|:--------:|:---------:|:-----:|-------------|
+| Android  | ✅       | ✅        | ✅    | Full composable path — `HomeScreen > AddToCartButton` |
+| iOS      | ✅       | ✅        | ✅    | Screen + coordinates — `HomeScreen > Screen[x=150,y=300]` |
+
+On iOS, Compose does not expose the semantics tree at the Kotlin/Native layer, so event paths use screen name and coordinates rather than composable names. Use `Tracey.screen()` or `TraceyScreen()` to at minimum capture the screen name in every path.
 
 > Gesture recording requires `TraceyHost`. Without it, lifecycle events, screen views, breadcrumbs, and crash recovery still work — but clicks/scrolls/swipes are not captured.
 

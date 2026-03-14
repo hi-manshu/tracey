@@ -25,3 +25,4 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and
 - `ReplayHtmlExporter` — self-contained HTML report with visual user flow diagram
 - `TestCaseExporter` — generates runnable Compose UI tests from a captured session
 - `TraceyReporter` interface for custom reporters
+- `Modifier.traceyMask()` — redacts sensitive composable regions (PII, payment fields) with a solid colour in captured screenshots; renders normally on screen
