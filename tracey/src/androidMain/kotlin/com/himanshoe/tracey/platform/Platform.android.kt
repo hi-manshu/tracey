@@ -6,10 +6,8 @@ import android.os.Build
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.ui.InternalComposeUiApi
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
-import androidx.compose.ui.node.Owner
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.semantics.SemanticsOwner
 import com.himanshoe.tracey.model.DeviceInfo
@@ -97,12 +95,13 @@ internal actual fun appPackage(): String {
     return if (AndroidContext.isInitialized) AndroidContext.app.packageName else "unknown"
 }
 
-@OptIn(InternalComposeUiApi::class)
 @Composable
 internal actual fun AttachSemanticsOwner(resolver: SemanticPathResolver) {
     val view = LocalView.current
     DisposableEffect(view) {
-        val semanticsOwner = (view as? Owner)?.semanticsOwner
+        val semanticsOwner = runCatching {
+            view.javaClass.getMethod("getSemanticsOwner").invoke(view) as? SemanticsOwner
+        }.getOrNull()
         semanticsOwner?.let { resolver.attach(it) }
         onDispose { resolver.detach() }
     }
