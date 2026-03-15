@@ -13,7 +13,7 @@ plugins {
 }
 
 group   = "com.himanshoe"
-version = "0.1.0"
+version = "0.0.1-alpha01"
 
 kotlin {
     androidLibrary {
