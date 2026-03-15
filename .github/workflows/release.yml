@@ -55,11 +55,11 @@ jobs:
 
       - name: Publish to Maven Central
         env:
-          MAVEN_CENTRAL_USERNAME:           ${{ secrets.MAVEN_CENTRAL_USERNAME }}
-          MAVEN_CENTRAL_PASSWORD:           ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
-          GPG_KEY_CONTENTS:                 ${{ secrets.GPG_KEY_CONTENTS }}
-          MAVEN_CENTRAL_VERIFICATION_TOKEN: ${{ secrets.MAVEN_CENTRAL_VERIFICATION_TOKEN }}
-        run: ./gradlew publishAllPublicationsToSonatypeRepository closeAndReleaseSonatypeStagingRepository --no-daemon
+          ORG_GRADLE_PROJECT_mavenCentralUsername:     ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword:     ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKey:       ${{ secrets.GPG_KEY_CONTENTS }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.MAVEN_CENTRAL_VERIFICATION_TOKEN }}
+        run: ./gradlew publishAllPublicationsToMavenCentralRepository --no-daemon
 
       - name: Commit version bump
         run: |

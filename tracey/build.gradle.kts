@@ -9,8 +9,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.binary.compatibility)
-    `maven-publish`
-    signing
+    alias(libs.plugins.vanniktech.publish)
 }
 
 group   = "com.himanshoe"
@@ -56,42 +55,30 @@ kotlin {
     }
 }
 
-publishing {
-    publications.withType<MavenPublication>().configureEach {
-        pom {
-            name.set("Tracey")
-            description.set("Kotlin Multiplatform SDK for recording, replaying, and reporting user interactions.")
-            url.set("https://github.com/himanshoe/tracey")
-            licenses {
-                license {
-                    name.set("Apache License 2.0")
-                    url.set("https://www.apache.org/licenses/LICENSE-2.0")
-                }
-            }
-            developers {
-                developer {
-                    id.set("himanshoe")
-                    name.set("Himanshu Singh")
-                    url.set("https://github.com/himanshoe")
-                }
-            }
-            scm {
-                url.set("https://github.com/himanshoe/tracey")
-                connection.set("scm:git:git://github.com/himanshoe/tracey.git")
-                developerConnection.set("scm:git:ssh://git@github.com/himanshoe/tracey.git")
+mavenPublishing {
+    publishToMavenCentral(com.vanniktech.maven.publish.SonatypeHost.CENTRAL_PORTAL, automaticRelease = true)
+    signAllPublications()
+    pom {
+        name.set("Tracey")
+        description.set("Kotlin Multiplatform SDK for recording, replaying, and reporting user interactions.")
+        url.set("https://github.com/himanshoe/tracey")
+        licenses {
+            license {
+                name.set("Apache License 2.0")
+                url.set("https://www.apache.org/licenses/LICENSE-2.0")
             }
         }
-    }
-
-}
-
-signing {
-    val signingKey = providers.gradleProperty("signingKey").orNull
-        ?: System.getenv("GPG_KEY_CONTENTS")
-    val signingPassword = providers.gradleProperty("signingPassword").orNull
-        ?: System.getenv("MAVEN_CENTRAL_VERIFICATION_TOKEN")
-    if (signingKey != null && signingPassword != null) {
-        useInMemoryPgpKeys(signingKey, signingPassword)
-        sign(publishing.publications)
+        developers {
+            developer {
+                id.set("himanshoe")
+                name.set("Himanshu Singh")
+                url.set("https://github.com/hi-manshu")
+            }
+        }
+        scm {
+            url.set("https://github.com/himanshoe/tracey")
+            connection.set("scm:git:git://github.com/himanshoe/tracey.git")
+            developerConnection.set("scm:git:ssh://git@github.com/himanshoe/tracey.git")
+        }
     }
 }

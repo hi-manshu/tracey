@@ -11,16 +11,5 @@ plugins {
     alias(libs.plugins.kotlin.serialization)    apply false
     alias(libs.plugins.compose.multiplatform)   apply false
     alias(libs.plugins.binary.compatibility)    apply false
-    alias(libs.plugins.nexus.publish)
-}
-
-nexusPublishing {
-    repositories {
-        sonatype {
-            nexusUrl.set(uri("https://ossrh-staging-api.central.sonatype.com/service/local/"))
-            snapshotRepositoryUrl.set(uri("https://central.sonatype.com/repository/snapshots/"))
-            username.set(providers.environmentVariable("MAVEN_CENTRAL_USERNAME"))
-            password.set(providers.environmentVariable("MAVEN_CENTRAL_PASSWORD"))
-        }
-    }
+    alias(libs.plugins.vanniktech.publish)      apply false
 }
