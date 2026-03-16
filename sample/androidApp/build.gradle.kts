@@ -4,21 +4,24 @@ plugins {
 }
 
 android {
-    namespace  = "com.himanshoe.tracey.sample"
+    namespace = "com.himanshoe.tracey.sample"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
         applicationId = "com.himanshoe.tracey.sample"
-        minSdk        = libs.versions.minSdk.get().toInt()
-        targetSdk     = libs.versions.targetSdk.get().toInt()
-        versionCode   = 1
-        versionName   = "1.0.0"
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
+        versionCode = 1
+        versionName = "1.0.0"
     }
 
     buildTypes {
         release {
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 
@@ -36,10 +39,13 @@ android {
 }
 
 dependencies {
-    // Switch these to project(":tracey") / project(":tracey-navigation")
+//    project(":tracey")
+//    project(":tracey-navigation")
     // when testing local changes; Maven Central coordinates verify the published release.
-    implementation("com.himanshoe:tracey:0.0.1-alpha01")
-    implementation("com.himanshoe:tracey-navigation:0.0.1-alpha01")
+    implementation("com.himanshoe:tracey:0.0.2-RC")
+    implementation("com.himanshoe:tracey-navigation:0.0.2-RC")
+//    implementation("com.himanshoe:tracey-navigation3:0.0.1-RC")
+    implementation(libs.navigation3.runtime)
     implementation(libs.navigation.compose)
     val composeBom = platform(libs.compose.bom)
     implementation(composeBom)

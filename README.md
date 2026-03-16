@@ -39,6 +39,10 @@
 | 🔒 **Privacy masking** | Mark sensitive composables — they render normally but are blacked out in captures |
 | 🔌 **Custom reporters** | Route captured sessions to Logcat, Crashlytics, Sentry, Slack, or your own backend |
 
+<br>
+
+https://github.com/himanshoe/tracey/raw/main/art/sample-demo.mp4
+
 ---
 
 ## Quick start
