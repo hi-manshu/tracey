@@ -30,19 +30,19 @@
 
 ## What Tracey does
 
-| | |
-|---|---|
+|                          |                                                                                       |
+|--------------------------|---------------------------------------------------------------------------------------|
 | 👆 **Gesture recording** | Captures clicks, scrolls, swipes, long presses, and pinches with zero instrumentation |
-| 🗺️ **Screen views** | Tracks every navigation event automatically via `tracey-navigation` or manually |
-| 🍞 **Breadcrumbs** | Log arbitrary events from anywhere — cart updates, API errors, feature flags |
-| 💥 **Crash replay** | Snapshots the event ring-buffer on crash and replays it on next launch |
-| 🔒 **Privacy masking** | Mark sensitive composables — they render normally but are blacked out in captures |
-| 🔌 **Custom reporters** | Route captured sessions to Logcat, Crashlytics, Sentry, Slack, or your own backend |
+| 🗺️ **Screen views**     | Tracks every navigation event automatically via `tracey-navigation` or manually       |
+| 🍞 **Breadcrumbs**       | Log arbitrary events from anywhere — cart updates, API errors, feature flags          |
+| 💥 **Crash replay**      | Snapshots the event ring-buffer on crash and replays it on next launch                |
+| 🔒 **Privacy masking**   | Mark sensitive composables — they render normally but are blacked out in captures     |
+| 🔌 **Custom reporters**  | Route captured sessions to Logcat, Crashlytics, Sentry, Slack, or your own backend    |
 
 <br>
-
-https://github.com/himanshoe/tracey/raw/main/art/sample-demo.mp4
-
+<p align="center">
+<video src="art/sample.mp4" controls></video>
+</p>
 ---
 
 ## Quick start
