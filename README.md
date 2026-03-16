@@ -40,6 +40,7 @@
 | 🔌 **Custom reporters**  | Route captured sessions to Logcat, Crashlytics, Sentry, Slack, or your own backend    |
 
 <br>
+
 <p align="center">
 <video src="art/sample.mp4" controls></video>
 </p>
