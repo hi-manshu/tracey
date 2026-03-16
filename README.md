@@ -42,7 +42,7 @@
 <br>
 
 <p align="center">
-<video src="art/sample.mp4" controls></video>
+<video src="https://github.com/user-attachments/assets/d1b7adbb-dea6-4f24-8db0-1cd4a0c49e76" controls></video>
 </p>
 ---
 
